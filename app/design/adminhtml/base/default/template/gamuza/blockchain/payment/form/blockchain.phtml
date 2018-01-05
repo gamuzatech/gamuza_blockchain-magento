@@ -1,0 +1,69 @@
+<?php
+/**
+ * @package     Gamuza_Blockchain
+ * @description Bitcoin Crypto Currency Wallet
+ * @copyright   Copyright (c) 2018 Gamuza Technologies (http://www.gamuza.com.br/)
+ * @author      Eneias Ramos de Melo <eneias@gamuza.com.br>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
+/**
+ * See the AUTHORS file for a list of people on the Gamuza Team.
+ * See the ChangeLog files for a list of changes.
+ * These files are distributed with gamuza_blockchain-magento at http://github.com/gamuzatech/.
+ */
+?>
+<?php $_code=$this->getMethodCode() ?>
+<?php
+$_baseCurrencyCode = $this->getBaseCurrencyCode ();
+$_baseGrandTotal   = $this->getBaseGrandTotal ();
+?>
+<style>
+#payment_form_gamuza_blockchain_info .form-item  { display: inline-block; padding: 20px; }
+#payment_form_gamuza_blockchain_info .form-logo  { display: block; padding-bottom: 30px; }
+#payment_form_gamuza_blockchain_info .form-price { display: block; padding-bottom: 20px; }
+</style>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <li>
+        <img class="form-logo" src="<?php echo $this->getSkinUrl('blockchain-info-logo.png') ?>" alt="" title="<?php echo $this->__('Crypto Currency Type') ?>" />
+        <span class="form-price"><?php echo $this->__('Order Base Grand Total'); ?>:<span class="price">
+            <?php echo $this->formatPrice ($_baseCurrencyCode, $_baseGrandTotal); ?>
+        </span>&nbsp;<?php echo $_baseCurrencyCode; ?></span>
+        <label for="<?php echo $_code ?>_cc_type" class="required"><em>*</em><?php echo $this->__('Crypto Currency Type') ?></label>
+        <div class="input-box">
+            <?php $_ccType = $this->getInfoData('cc_type') ?>
+            <?php foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeValue): ?>
+                <?php $_typeName = $_typeValue ['name']; ?>
+                <div class="form-item">
+                    <p><label for="<?php echo $_code . '_' . $_typeCode ?>_cc_type">
+                        <img src="<?php echo $this->getSkinUrl($_code . '-' . $_typeCode) ?>-logo.png" alt="<?php echo $_typeName ?>" title="<?php echo $_typeName; ?>" />
+                    </label></p>
+                    <p><input id="<?php echo $_code . '_' . $_typeCode ?>_cc_type" name="payment[cc_type]" title="<?php echo $_typeName ?>"
+                        type="radio" value="<?php echo $_typeCode ?>" <?php if($_typeCode==$_ccType): ?> selected="selected"<?php endif ?>
+                        class="validate-one-required-by-name">
+                    <label for="<?php echo $_code . '_' . $_typeCode ?>_cc_type"><?php echo $_typeName ?></label></p>
+                    <?php $_orderGrandTotal = $this->convertCurrency ($_baseGrandTotal, $_baseCurrencyCode, $_typeCode); ?>
+                    <p><span><span class="price">
+                        <?php echo $this->formatPrice ($_typeCode, $_orderGrandTotal); ?>
+                    </span>&nbsp;<?php echo $_typeCode; ?></span></p>
+                </div>
+            <?php endforeach ?>
+        </div>
+    </li>
+    <?php echo $this->getChildHtml() ?>
+</ul>
+

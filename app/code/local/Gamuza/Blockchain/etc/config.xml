@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/**
+ * @package     Gamuza_Blockchain
+ * @description Bitcoin Crypto Currency Wallet
+ * @copyright   Copyright (c) 2018 Gamuza Technologies (http://www.gamuza.com.br/)
+ * @author      Eneias Ramos de Melo <eneias@gamuza.com.br>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
+/**
+ * See the AUTHORS file for a list of people on the Gamuza Team.
+ * See the ChangeLog files for a list of changes.
+ * These files are distributed with gamuza_blockchain-magento at http://github.com/gamuzatech/.
+ */
+-->
+
+<config>
+    <modules>
+        <Gamuza_Blockchain>
+            <version>0.0.1</version>
+        </Gamuza_Blockchain>
+    </modules>
+    <global>
+        <helpers>
+            <blockchain>
+                <class>Gamuza_Blockchain_Helper</class>
+            </blockchain>
+        </helpers>
+        <blocks>
+            <blockchain>
+                <class>Gamuza_Blockchain_Block</class>
+            </blockchain>
+            <directory>
+                <rewrite>
+                    <currency>Gamuza_Blockchain_Block_Directory_Currency</currency>
+                </rewrite>
+            </directory>
+        </blocks>
+        <models>
+            <blockchain>
+                <class>Gamuza_Blockchain_Model</class>
+                <resourceModel>blockchain_mysql4</resourceModel>
+            </blockchain>
+            <blockchain_mysql4>
+                <class>Gamuza_Blockchain_Model_Mysql4</class>
+                <entities>		  
+                    <transaction>
+                        <table>gamuza_blockchain_transaction</table>
+                    </transaction>
+                    <block>
+                        <table>gamuza_blockchain_block</table>
+                    </block>
+                </entities>
+            </blockchain_mysql4>
+            <core>
+                <rewrite>
+                    <locale>Gamuza_Blockchain_Model_Core_Locale</locale>
+                    <store>Gamuza_Blockchain_Model_Core_Store</store>
+                </rewrite>
+            </core>
+            <directory>
+                <rewrite>
+                    <currency>Gamuza_Blockchain_Model_Directory_Currency</currency>
+                </rewrite>
+            </directory>
+        </models>
+        <resources>
+            <blockchain_setup>
+                <setup>
+                    <module>Gamuza_Blockchain</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </blockchain_setup>
+            <blockchain_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </blockchain_write>
+            <blockchain_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </blockchain_read>
+        </resources>
+        <payment>
+            <blockchain>
+                <types>
+                    <BTC>
+                        <code>BTC</code>
+                        <name>Bitcoin</name>
+                        <order>0</order>
+                        <precision>8</precision><!-- 1 satoshi -->
+                        <symbol>&#579;</symbol><!-- Ƀ -->
+                    </BTC>
+                    <!--
+                    <BCH>
+                        <code>BCH</code>
+                        <name>Bitcoin Cash</name>
+                        <order>10</order>
+                    </BCH>
+                    <ETH>
+                        <code>ETH</code>
+                        <name>Ether</name>
+                        <order>20</order>
+                    </ETH>
+                    -->
+                </types>
+            </blockchain>
+        </payment>
+        <currency>
+            <import>
+                <services>
+                    <blockchain>
+                        <name>Blockchain.info</name>
+                        <model>blockchain/currency_import_blockchain</model>
+                    </blockchain>
+                </services>
+            </import>
+        </currency>
+        <fieldsets>
+            <sales_convert_quote_payment>
+                <blockchain_address>
+                    <to_order_payment>*</to_order_payment>
+                </blockchain_address>
+                <blockchain_amount>
+                    <to_order_payment>*</to_order_payment>
+                </blockchain_amount>
+            </sales_convert_quote_payment>
+            <sales_convert_order_payment>
+                <blockchain_address>
+                    <to_quote_payment>*</to_quote_payment>
+                </blockchain_address>
+                <blockchain_amount>
+                    <to_quote_payment>*</to_quote_payment>
+                </blockchain_amount>
+            </sales_convert_order_payment>
+        </fieldsets>
+        <events>
+            <sales_quote_save_before>
+                <observers>
+                    <gamuza_blockchain_sales_quote_save_before>
+                        <class>blockchain/observer</class>
+                        <method>salesQuoteSaveBefore</method>
+                    </gamuza_blockchain_sales_quote_save_before>
+                </observers>
+            </sales_quote_save_before>
+        </events>
+        <locale>
+            <allow>
+                <currencies>
+                    <BTC />
+                    <!--
+                    <BCH />
+                    <ETH />
+                    -->
+                </currencies>
+            </allow>
+        </locale>
+    </global>
+    <admin>
+        <routers>
+            <admin_blockchain>
+                <use>admin</use>
+                <args>
+                    <module>Gamuza_Blockchain</module>
+                    <frontName>admin_blockchain</frontName>
+                </args>
+            </admin_blockchain>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Gamuza_Blockchain>
+                    <files>
+                        <default>Gamuza_Blockchain.csv</default>
+                    </files>
+                </Gamuza_Blockchain>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <blockchain>
+                    <file>gamuza/blockchain.xml</file>
+                </blockchain>
+            </updates>
+        </layout>
+    </adminhtml>    
+    <frontend>
+        <routers>
+            <blockchain>
+                <use>standard</use>
+                <args>
+                    <module>Gamuza_Blockchain</module>
+                    <frontName>blockchain</frontName>
+                </args>
+            </blockchain>
+        </routers>
+        <layout>
+            <updates>
+                <blockchain>
+                    <file>gamuza/blockchain.xml</file>
+                </blockchain>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Gamuza_Blockchain>
+                    <files>
+                        <default>Gamuza_Blockchain.csv</default>
+                    </files>
+                </Gamuza_Blockchain>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <currency>
+            <blockchain>
+                <timeout>100</timeout>
+            </blockchain>
+        </currency>
+        <payment>
+            <gamuza_blockchain_info>
+                <active>0</active>
+                <title>Blockchain - Digital Currency Wallet</title>
+                <api_url><![CDATA[https://api.blockchain.info/v2/]]></api_url>
+                <cctypes><![CDATA[BTC,BCH,ETH]]></cctypes>
+                <timeout>30</timeout>
+                <gap_limit>20</gap_limit>
+                <confirmations>6</confirmations>
+                <block_confirmations>1</block_confirmations>
+                <!--
+                <keep_retries>1</keep_retries>
+                -->
+                <order_status>pending</order_status>
+                <model>blockchain/payment_method_blockchain</model>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+            </gamuza_blockchain_info>
+        </payment>
+        <system>
+            <currency>
+                <installed>AZN,AZM,AFN,ALL,DZD,AOA,ARS,AMD,AWG,AUD,BSD,BHD,BDT,BBD,BYR,BZD,BMD,BTC,BTN,BOB,BAM,BWP,BRL,GBP,BND,BGN,BUK,BIF,KHR,CAD,CVE,CZK,KYD,CLP,CNY,COP,KMF,CDF,CRC,HRK,CUP,DKK,DJF,DOP,XCD,EGP,SVC,GQE,ERN,EEK,ETB,EUR,FKP,FJD,GMD,GEK,GEL,GHS,GIP,GTQ,GNF,GYD,HTG,HNL,HKD,HUF,ISK,INR,IDR,IRR,IQD,ILS,JMD,JPY,JOD,KZT,KES,KWD,KGS,LAK,LVL,LBP,LSL,LRD,LYD,LTL,MOP,MKD,MGA,MWK,MYR,MVR,LSM,MRO,MUR,MXN,MDL,MNT,MAD,MZN,MMK,NAD,NPR,ANG,TRL,TRY,NZD,NIC,NGN,KPW,NOK,OMR,PKR,PAB,PGK,PYG,PEN,PHP,PLN,QAR,RHD,RON,ROL,RUB,RWF,SHP,STD,SAR,RSD,SCR,SLL,SGD,SKK,SBD,SOS,ZAR,KRW,LKR,SDG,SRD,SZL,SEK,CHF,SYP,TWD,TJS,TZS,THB,TOP,TTD,TND,TMM,USD,UGX,UAH,AED,UYU,UZS,VUV,VEB,VEF,VND,CHE,CHW,XOF,XPF,WST,YER,ZMK,ZWD</installed>
+            </currency>
+        </system>
+    </default>
+    <crontab>
+        <jobs>
+            <gamuza_blockchain_run_transactions>
+                <schedule><cron_expr>*/10 * * * *</cron_expr></schedule>
+                <run><model>blockchain/cron::runTransactions</model></run>
+            </gamuza_blockchain_run_transactions>
+            <gamuza_blockchain_run_blocks>
+                <schedule><cron_expr>*/15 * * * *</cron_expr></schedule>
+                <run><model>blockchain/cron::runBlocks</model></run>
+            </gamuza_blockchain_run_blocks>
+        </jobs>
+    </crontab>
+</config>
+

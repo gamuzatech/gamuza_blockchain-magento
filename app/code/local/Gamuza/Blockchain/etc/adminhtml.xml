@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/**
+ * @package     Gamuza_Blockchain
+ * @description Bitcoin Crypto Currency Wallet
+ * @copyright   Copyright (c) 2018 Gamuza Technologies (http://www.gamuza.com.br/)
+ * @author      Eneias Ramos de Melo <eneias@gamuza.com.br>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
+/**
+ * See the AUTHORS file for a list of people on the Gamuza Team.
+ * See the ChangeLog files for a list of changes.
+ * These files are distributed with gamuza_blockchain-magento at http://github.com/gamuzatech/.
+ */
+-->
+
+<config>
+    <menu>
+        <gamuza>
+            <title>Gamuza</title>
+            <sort_order>1000</sort_order>
+            <children>
+                <blockchain module="blockchain">
+                    <title>Blockchain</title>
+                    <sort_order>0</sort_order>
+                    <children>
+                        <transaction module="blockchain">
+                            <title>Manage Transactions</title>
+                            <sort_order>0</sort_order>
+                            <action>admin_blockchain/adminhtml_transaction</action>
+                        </transaction>
+                        <block module="blockchain">
+                            <title>Manage Blocks</title>
+                            <sort_order>10</sort_order>
+                            <action>admin_blockchain/adminhtml_block</action>
+                        </block>
+                    </children>
+                </blockchain>
+            </children>
+        </gamuza>
+    </menu>
+	<acl>
+		<resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+			<admin>
+				<children>
+                    <gamuza>
+                        <title>Gamuza</title>
+                        <sort_order>1000</sort_order>
+                        <children>
+                            <blockchain translate="title" module="blockchain">
+                                <title>Blockchain</title>
+                                <sort_order>1000</sort_order>
+                                <children>
+                                    <transaction translate="title">
+                                        <title>Manage Transactions</title>
+                                        <sort_order>0</sort_order>
+                                    </transaction>
+                                    <block translate="title">
+                                        <title>Manage Blocks</title>
+                                        <sort_order>10</sort_order>
+                                    </block>
+                                </children>
+                            </blockchain>
+                        </children>
+                    </gamuza>
+					<system>
+						<children>
+							<config>
+								<children>
+									<blockchain translate="title" module="blockchain">
+										<title>Gamuza Blockchain Section</title>
+										<sort_order>0</sort_order>
+									</blockchain>
+								</children>
+							</config>
+						</children>
+					</system>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>
+

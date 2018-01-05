@@ -1,0 +1,103 @@
+<?php
+/**
+ * @package     Gamuza_Blockchain
+ * @description Bitcoin Crypto Currency Wallet
+ * @copyright   Copyright (c) 2018 Gamuza Technologies (http://www.gamuza.com.br/)
+ * @author      Eneias Ramos de Melo <eneias@gamuza.com.br>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
+/**
+ * See the AUTHORS file for a list of people on the Gamuza Team.
+ * See the ChangeLog files for a list of changes.
+ * These files are distributed with gamuza_blockchain-magento at http://github.com/gamuzatech/.
+ */
+?>
+<?php
+/**
+ * @see Mage_Payment_Block_Info
+ */
+?>
+<p class="subtitle"><strong><?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?></strong></p>
+
+<?php if ($_specificInfo = $this->getSpecificInformation()):?>
+<dl class="payment-info">
+    <?php foreach ($_specificInfo as $_label => $_value):?>
+        <dt><?php echo $this->escapeHtml($_label)?></dt>
+        <dd><?php echo nl2br(implode($this->getValueAsArray($_value, true), "\n"))?></dd>
+    <?php endforeach; ?>
+</dl>
+<?php endif;?>
+
+<?php echo $this->getChildHtml()?>
+
+<?php $order = $this->getOrder (); ?>
+<?php if ($order && $order->getId ()): ?>
+
+<?php $_ccType = $this->getMethod ()->getInfoInstance ()->getCcType (); ?>
+
+<style>
+button.button#blockchain-payment-request, #blockchain-payment-please-wait { float: left; margin-top: 10px; }
+#blockchain-payment-clear { clear: left; }
+#blockchain-payment-response { max-width: 300px; padding-top: 20px; }
+</style>
+
+<button id="blockchain-payment-request" type="button" class="button btn btn-success">
+<?php $_typeName = (string) Mage::getConfig ()->getNode ('global/payment/blockchain/types/' . $_ccType . '/name'); ?>
+<span><?php echo Mage::helper ('blockchain')->__('Pay with %s', $_typeName); ?></span>
+</button>
+
+<span id="blockchain-payment-please-wait" class="please-wait" style="display: none;">
+    <img src="<?php echo $this->getAjaxLoaderUrl(); ?>" alt="<?php echo Mage::helper('blockchain')->__('Loading ...'); ?>" title="" class="v-middle" />
+</span>
+
+<div id="blockchain-payment-clear"></div>
+
+<div id="blockchain-payment-response"></div>
+
+<?php $receiveUrl = $this->getReceiveUrl ($order->getId ()); ?>
+
+<script type="text/javascript">
+$('blockchain-payment-request').observe ('click', function (event) {
+    this.disable ();
+
+    $('blockchain-payment-please-wait').show ();
+    $('blockchain-payment-response').hide ();
+
+    new Ajax.Request ("<?php echo $receiveUrl; ?>", {
+        method: 'get',
+        onComplete: function (transport) {
+            $('blockchain-payment-please-wait').hide ();
+        },
+        onFailure: function (transport) {
+            $('blockchain-payment-response').innerText = transport.responseText;
+            $('blockchain-payment-response').addClassName ('validation-advice').show ();
+
+            $('blockchain-payment-request').enable ();
+        },
+        onSuccess: function (transport) {
+            $('blockchain-payment-response').innerHTML = transport.responseText;
+            $('blockchain-payment-response').removeClassName ('validation-advice');
+
+            new Effect.Appear ($('blockchain-payment-response'), {duration: 1});
+        },
+    });
+});
+</script>
+
+<?php endif; ?>
+
