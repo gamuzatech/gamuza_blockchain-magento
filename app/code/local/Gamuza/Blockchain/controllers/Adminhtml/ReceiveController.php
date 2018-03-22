@@ -32,5 +32,10 @@ class Gamuza_Blockchain_Adminhtml_ReceiveController extends Mage_Adminhtml_Contr
     use Gamuza_Blockchain_Trait_Controller_Receive;
 
     public $_publicActions = array ('address');
+
+	protected function _isAllowed ()
+	{
+	    return Mage::getSingleton ('admin/session')->isAllowed ('gamuza/blockchain/receive');
+	}
 }
 

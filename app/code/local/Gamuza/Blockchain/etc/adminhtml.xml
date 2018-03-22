@@ -77,6 +77,10 @@
                                         <title>Manage Blocks</title>
                                         <sort_order>10</sort_order>
                                     </block>
+                                    <receive translate="title">
+                                        <title>Manage Receive</title>
+                                        <sort_order>20</sort_order>
+                                    </receive>
                                 </children>
                             </blockchain>
                         </children>
