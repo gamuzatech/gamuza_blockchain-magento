@@ -48,15 +48,15 @@ class Gamuza_Blockchain_Helper_Data extends Mage_Core_Helper_Abstract
 
     const XML_GLOBAL_PAYMENT_BLOCKCHAIN_TYPES = 'global/payment/blockchain/types';
 
-    const XML_PAYMENT_BLOCKCHAIN_KEY           = 'payment/blockchain/api_key';
-    const XML_PAYMENT_BLOCKCHAIN_XPUB          = 'payment/blockchain/xpub_key';
-    const XML_PAYMENT_BLOCKCHAIN_GAP           = 'payment/blockchain/gap_limit';
-    const XML_PAYMENT_BLOCKCHAIN_CONFIRMATIONS = 'payment/blockchain/confirmations';
-    const XML_PAYMENT_BLOCKCHAIN_KEEP_RETRIES  = 'payment/blockchain/keep_retries';
-    const XML_PAYMENT_BLOCKCHAIN_ORDER_STATUS  = 'payment/blockchain/order_status';
-    const XML_PAYMENT_BLOCKCHAIN_USE_BLOCK     = 'payment/blockchain/use_block';
-    const XML_PAYMENT_BLOCKCHAIN_BLOCK_CONFS   = 'payment/blockchain/block_confirmations';
-    const XML_PAYMENT_BLOCKCHAIN_BLOCK_HEIGHT  = 'payment/blockchain/block_height';
+    const XML_PAYMENT_BLOCKCHAIN_KEY           = 'payment/gamuza_blockchain_info/api_key';
+    const XML_PAYMENT_BLOCKCHAIN_XPUB          = 'payment/gamuza_blockchain_info/xpub_key';
+    const XML_PAYMENT_BLOCKCHAIN_GAP           = 'payment/gamuza_blockchain_info/gap_limit';
+    const XML_PAYMENT_BLOCKCHAIN_CONFIRMATIONS = 'payment/gamuza_blockchain_info/confirmations';
+    const XML_PAYMENT_BLOCKCHAIN_KEEP_RETRIES  = 'payment/gamuza_blockchain_info/keep_retries';
+    const XML_PAYMENT_BLOCKCHAIN_ORDER_STATUS  = 'payment/gamuza_blockchain_info/order_status';
+    const XML_PAYMENT_BLOCKCHAIN_USE_BLOCK     = 'payment/gamuza_blockchain_info/use_block';
+    const XML_PAYMENT_BLOCKCHAIN_BLOCK_CONFS   = 'payment/gamuza_blockchain_info/block_confirmations';
+    const XML_PAYMENT_BLOCKCHAIN_BLOCK_HEIGHT  = 'payment/gamuza_blockchain_info/block_height';
 
     const STATUS_CREATED = 'created';
     const STATUS_PENDING = 'pending';
@@ -172,7 +172,7 @@ class Gamuza_Blockchain_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getStoreConfig ($key)
     {
-        return Mage::getStoreConfig ("payment/blockchain/{$key}");
+        return Mage::getStoreConfig ("payment/gamuza_blockchain_info/{$key}");
     }
 }
 

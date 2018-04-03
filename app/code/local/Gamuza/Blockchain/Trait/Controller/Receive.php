@@ -167,7 +167,7 @@ trait Gamuza_Blockchain_Trait_Controller_Receive
                 urlencode ($notificationUrl)
             );
 
-            $response = $this->_getHelper ()->api ($receiveAddressMethod, $post);
+            $response = $this->_getHelper ()->api ($receiveAddressMethod);
 
             $transaction->setAddress ($response->address)
                 ->setIndex ($response->index)

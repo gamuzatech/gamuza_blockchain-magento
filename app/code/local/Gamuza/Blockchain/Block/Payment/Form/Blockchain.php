@@ -89,9 +89,9 @@ class Gamuza_Blockchain_Block_Payment_Form_Blockchain extends Mage_Payment_Block
         return $this->_getHelper ()->getBaseGrandTotal ();
     }
 
-    public function getSkinUrl ($image)
+    public function getSkinUrl ($file = null, array $params = array ())
     {
-        return parent::getSkinUrl (Gamuza_Blockchain_Helper_Data::PAYMENT_IMAGE_PREFIX . $image);
+        return parent::getSkinUrl (Gamuza_Blockchain_Helper_Data::PAYMENT_IMAGE_PREFIX . $file);
     }
 }
 
