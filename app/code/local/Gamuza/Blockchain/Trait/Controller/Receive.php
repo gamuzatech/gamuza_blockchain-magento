@@ -68,7 +68,7 @@ trait Gamuza_Blockchain_Trait_Controller_Receive
 
         ob_end_clean ();
 
-        return $this->getResponse ()->setBody ("<img src='data:image/png; base64, {$result}' />");
+        return $this->getResponse ()->setBody ("<img src='data:image/png;base64,{$result}' />");
     }
 
     protected function _throwException ($message)
