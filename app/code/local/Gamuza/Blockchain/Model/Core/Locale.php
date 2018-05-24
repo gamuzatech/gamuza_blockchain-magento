@@ -114,6 +114,9 @@ class Gamuza_Blockchain_Model_Core_Locale extends Mage_Core_Model_Locale
     public function getTranslationList ($path = null, $value = null)
     {
         $translationList = parent::getTranslationList ($path, $value);
+
+        if (strcmp ($path, 'currencytoname')) return $translationList;
+
         $additionalList = array ();
 
         foreach ($this->_paymentTypes as $type)
