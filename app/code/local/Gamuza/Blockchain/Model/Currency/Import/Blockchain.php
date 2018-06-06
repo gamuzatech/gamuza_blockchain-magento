@@ -60,7 +60,7 @@ class Gamuza_Blockchain_Model_Currency_Import_Blockchain extends Mage_Directory_
                 ->setUri ($url)
                 ->setConfig (array ('timeout' => Mage::getStoreConfig ('currency/blockchain/timeout')))
                 ->request ('GET')
-                ->getBody ()
+                ->getRawBody ()
             ;
 
             if (empty ($response))
@@ -68,6 +68,13 @@ class Gamuza_Blockchain_Model_Currency_Import_Blockchain extends Mage_Directory_
                 $this->_messages [] = Mage::helper ('directory')->__('Cannot retrieve rate from %s.', $url);
 
                 return null;
+            }
+
+            // FIX: Error parsing body - doesn't seem to be a chunked message
+            $decoded = gzdecode ($response);
+            if (is_numeric ($decoded))
+            {
+                $response = $decoded;
             }
 
             return $response;
