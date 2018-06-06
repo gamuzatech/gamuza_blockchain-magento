@@ -27,24 +27,15 @@
  * These files are distributed with gamuza_blockchain-magento at http://github.com/gamuzatech/.
  */
 
-class Gamuza_Blockchain_Adminhtml_BlockController extends Mage_Adminhtml_Controller_Action
+class Gamuza_Blockchain_Adminhtml_Blockchain_ReceiveController extends Mage_Adminhtml_Controller_Action
 {
+    use Gamuza_Blockchain_Trait_Controller_Receive;
+
+    public $_publicActions = array ('address');
+
 	protected function _isAllowed ()
 	{
-	    return Mage::getSingleton ('admin/session')->isAllowed ('gamuza/blockchain/block');
-	}
-
-	public function indexAction ()
-	{
-	    $this->_title ($this->__('Blockchain'));
-	    $this->_title ($this->__('Manage Blocks'));
-
-		$this->loadLayout ();
-
-        $this->_setActiveMenu ('gamuza/blockchain/block');
-        $this->_addBreadcrumb (Mage::helper ('blockchain')->__("Block's Manager"), Mage::helper ('blockchain')->__("Block's Manager"));
-
-		$this->renderLayout ();
+	    return Mage::getSingleton ('admin/session')->isAllowed ('gamuza/blockchain/receive');
 	}
 }
 

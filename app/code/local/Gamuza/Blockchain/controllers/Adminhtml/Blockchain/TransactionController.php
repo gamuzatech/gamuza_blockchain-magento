@@ -27,7 +27,7 @@
  * These files are distributed with gamuza_blockchain-magento at http://github.com/gamuzatech/.
  */
 
-class Gamuza_Blockchain_Adminhtml_TransactionController extends Mage_Adminhtml_Controller_Action
+class Gamuza_Blockchain_Adminhtml_Blockchain_TransactionController extends Mage_Adminhtml_Controller_Action
 {
 	protected function _isAllowed ()
 	{

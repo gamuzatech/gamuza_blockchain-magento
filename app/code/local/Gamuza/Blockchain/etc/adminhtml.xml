@@ -42,12 +42,12 @@
                         <transaction module="blockchain">
                             <title>Manage Transactions</title>
                             <sort_order>0</sort_order>
-                            <action>admin_blockchain/adminhtml_transaction</action>
+                            <action>adminhtml/blockchain_transaction</action>
                         </transaction>
                         <block module="blockchain">
                             <title>Manage Blocks</title>
                             <sort_order>10</sort_order>
-                            <action>admin_blockchain/adminhtml_block</action>
+                            <action>adminhtml/blockchain_block</action>
                         </block>
                     </children>
                 </blockchain>

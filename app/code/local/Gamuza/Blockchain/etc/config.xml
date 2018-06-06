@@ -176,6 +176,7 @@
     </global>
     <admin>
         <routers>
+            <!--
             <admin_blockchain>
                 <use>admin</use>
                 <args>
@@ -183,6 +184,14 @@
                     <frontName>admin_blockchain</frontName>
                 </args>
             </admin_blockchain>
+            -->
+            <adminhtml>
+                <args>
+                    <modules>
+                        <admin_blockchain before="Mage_Adminhtml">Gamuza_Blockchain_Adminhtml</admin_blockchain>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>

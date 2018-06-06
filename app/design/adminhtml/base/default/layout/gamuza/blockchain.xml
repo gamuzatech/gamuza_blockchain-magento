@@ -30,15 +30,15 @@
 -->
 
 <layout version="0.1.0">
-    <admin_blockchain_adminhtml_transaction_index>
+    <adminhtml_blockchain_transaction_index>
         <reference name="content">
             <block type="blockchain/adminhtml_transaction" name="transaction" />
         </reference>
-    </admin_blockchain_adminhtml_transaction_index>
-    <admin_blockchain_adminhtml_block_index>
+    </adminhtml_blockchain_transaction_index>
+    <adminhtml_blockchain_block_index>
         <reference name="content">
             <block type="blockchain/adminhtml_block" name="block" />
         </reference>
-    </admin_blockchain_adminhtml_block_index>
+    </adminhtml_blockchain_block_index>
 </layout>
 

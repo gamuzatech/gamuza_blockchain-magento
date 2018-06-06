@@ -65,7 +65,7 @@ class Gamuza_Blockchain_Block_Payment_Info_Blockchain extends Mage_Payment_Block
 
     public function getReceiveUrl ($orderId)
     {
-        $receiveUrl = Mage::app ()->getStore ()->isAdmin () ? 'admin_blockchain/adminhtml_receive/address' : 'blockchain/receive/address';
+        $receiveUrl = Mage::app ()->getStore ()->isAdmin () ? 'adminhtml/blockchain_receive/address' : 'blockchain/receive/address';
 
         $result = $this->getUrl ($receiveUrl, array(
             '_secure' => true, 'order_id' => $orderId,
