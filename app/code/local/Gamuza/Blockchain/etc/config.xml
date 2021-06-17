@@ -248,7 +248,7 @@
         <payment>
             <gamuza_blockchain_info>
                 <active>0</active>
-                <title>Blockchain - Digital Currency Wallet</title>
+                <title>Blockchain - Wallet</title>
                 <api_url><![CDATA[https://api.blockchain.info/v2/]]></api_url>
                 <cctypes><![CDATA[BTC,BCH,ETH]]></cctypes>
                 <timeout>30</timeout>
@@ -259,9 +259,11 @@
                 <keep_retries>1</keep_retries>
                 -->
                 <order_status>pending</order_status>
+                <paid_status>paid</paid_status>
                 <model>blockchain/payment_method_blockchain</model>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
+                <payment_action>authorize</payment_action>
             </gamuza_blockchain_info>
         </payment>
         <system>

@@ -95,14 +95,17 @@ class Gamuza_Blockchain_ReceiveController extends Mage_Core_Controller_Front_Act
         {
             return $this->_throwException (Mage::helper ('blockchain')->__('Order does not belong to the customer.'));
         }
-
+/*
         $orderStatus = Mage::getStoreConfig (Gamuza_Blockchain_Helper_Data::XML_PAYMENT_BLOCKCHAIN_ORDER_STATUS);
         if (strcmp ($order->getStatus (), $orderStatus))
+*/
+        if (strcmp ($order->getState (), Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW))
         {
             return $this->_throwException (Mage::helper ('blockchain')->__('Invalid order status for payment action.'));
         }
 
         $blockchainAddress = $order->getPayment ()->getData (Gamuza_Blockchain_Helper_Data::ORDER_PAYMENT_ATTRIBUTE_BLOCKCHAIN_ADDRESS);
+
         if (strcmp ($blockchainAddress, $address))
         {
             return $this->_throwException (Mage::helper ('blockchain')->__('Invalid order payment for blockchain address.'));
@@ -129,6 +132,7 @@ class Gamuza_Blockchain_ReceiveController extends Mage_Core_Controller_Front_Act
             $notificationUrl = Mage::getUrl ('blockchain/receive/block', array ('_secure' => true, '_query' => array ('secret' => $secret)));
 
             $block = Mage::getModel ('blockchain/block')->load ($transaction->getId (), 'transaction_id');
+
             $block->setTransactionId ($transaction->getId ())
                 ->setOrderId ($order->getId ())
                 ->setCallback ($notificationUrl)
@@ -199,6 +203,7 @@ class Gamuza_Blockchain_ReceiveController extends Mage_Core_Controller_Front_Act
         }
 
         $orderStatus = Mage::getStoreConfig (Gamuza_Blockchain_Helper_Data::XML_PAYMENT_BLOCKCHAIN_ORDER_STATUS);
+
         if (strcmp ($order->getStatus (), $orderStatus))
         {
             return $this->_throwException (Mage::helper ('blockchain')->__('Invalid order status for payment action.'));

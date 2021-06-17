@@ -101,14 +101,17 @@ trait Gamuza_Blockchain_Trait_Controller_Receive
         {
             return $this->_throwException (Mage::helper ('blockchain')->__('Order does not belong to the customer.'));
         }
-
+/*
         $orderStatus = Mage::getStoreConfig (Gamuza_Blockchain_Helper_Data::XML_PAYMENT_BLOCKCHAIN_ORDER_STATUS);
         if (strcmp ($order->getStatus (), $orderStatus))
+*/
+        if (strcmp ($order->getState (), Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW))
         {
             return $this->_throwException (Mage::helper ('blockchain')->__('Invalid order status for payment action.'));
         }
 
         $blockchainAddress = $order->getPayment ()->getData (Gamuza_Blockchain_Helper_Data::ORDER_PAYMENT_ATTRIBUTE_BLOCKCHAIN_ADDRESS);
+
         if (!empty ($blockchainAddress))
         {
             return $this->_setQRBody ($blockchainAddress);
@@ -205,6 +208,20 @@ trait Gamuza_Blockchain_Trait_Controller_Receive
                 return $this->_throwException (Mage::helper ('blockchain')->__('Cannot create an invoice.'));
             }
 
+            /**
+             * Paid Status
+             */
+            $status = Mage::getStoreConfig ('payment/gamuza_blockchain_info/paid_status');
+
+            $message = Mage::helper ('sales')->__('Approved the payment online.');
+
+            $order->setState (Mage_Sales_Model_Order::STATE_NEW, $status, $message, false)
+                ->save ()
+            ;
+
+            /**
+             * Invoice
+             */
             $invoice = Mage::getModel ('sales/service_order', $order)->prepareInvoice ();
 
             if (!$invoice->getTotalQty ())
